@@ -1,0 +1,40 @@
+services:
+  db:
+    image: mysql:8.4
+    environment:
+      MYSQL_DATABASE: payday_test
+      MYSQL_USER: payday
+      MYSQL_PASSWORD: local_test_only
+      MYSQL_ROOT_PASSWORD: local_root_only
+    volumes:
+      - payday_test_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin ping -h localhost -uroot -p$$MYSQL_ROOT_PASSWORD --silent"]
+      interval: 5s
+      timeout: 5s
+      retries: 30
+  app:
+    build: ./code/stage1
+    ports:
+      - "127.0.0.1:8080:80"
+    environment:
+      DB_HOST: db
+      DB_NAME: payday_test
+      DB_USER: payday
+      DB_PASSWORD: local_test_only
+    depends_on:
+      db:
+        condition: service_healthy
+    volumes:
+      - ./code/stage1/public:/var/www/html:ro
+  tests:
+    image: python:3.12-slim
+    profiles: [test]
+    working_dir: /work
+    volumes:
+      - ./tests:/work:ro
+    command: ["python", "acceptance.py", "--base-url", "http://app"]
+    depends_on:
+      - app
+volumes:
+  payday_test_data:
