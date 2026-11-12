@@ -1,10 +1,10 @@
-# Stage 1 verification
+# My Stage 1 verification results
 
-Date: November 11, 2026.
-- Python syntax: python3 -m py_compile tests/acceptance.py — passed in assistant workspace.
-- HTTP status/content tests: not run against a working implementation.
-- PHP/MySQL startup: not run; PHP and Docker unavailable in assistant workspace.
-- Student Mac readiness: awaiting docker compose up --build -d and health response.
-- Business workflows: not implemented; acceptance tests are expected to fail against the probe.
+Verification record from November 11, 2026.
+- ChatGPT ran `python3 -m py_compile tests/acceptance.py` successfully in its workspace.
+- I have not run the HTTP status and content tests against a working app yet.
+- ChatGPT could not run the PHP/MySQL startup check because PHP and Docker were unavailable in its workspace.
+- I still need to run `docker compose up --build -d` and check the health response on my Mac.
+- I still need to implement the budgeting features. The acceptance tests are expected to fail against the startup check.
 
-Record actual command, expected vs actual output, date and pass/fail here after running. Do not substitute syntax validation for acceptance results.
+I will record each command, expected and actual output, date, and pass/fail result here. The Python syntax check does not count as a passing application test.

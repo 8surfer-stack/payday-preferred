@@ -1,8 +1,8 @@
 # Payday Preferred
 
-CSC 640 Option 1 project by Barnabas Olatoyan. Professor approval confirmed by the student November 10, 2026.
+I am building Payday Preferred for CSC 640 under Option 1. My professor approved my project on November 3, 2026.
 
-The approved proposal records income, allocates customizable percentages to destination labels, and stores simulated-transfer history. Stage 1 uses PHP/MySQL; Stage 2 will use Laravel/MySQL and the same acceptance tests. Transfers are simulated.
+My app will record income, split it using customizable percentages, and save simulated-transfer history. I will use PHP/MySQL for Stage 1 and Laravel/MySQL for Stage 2, with the same acceptance tests for both. I will simulate transfers without moving real money.
 
 ## Part 1 files
 - [Stage 1 plan](plan/HW4_plan_stage1.md)
@@ -12,8 +12,8 @@ The approved proposal records income, allocates customizable percentages to dest
 - [Verification status](tests/results/stage1.md)
 - [Canvas progress text](plan/canvas-progress.md)
 
-## Verify the environment on your Mac
-Install and open Docker Desktop for Mac, then open a terminal in this repository. PHP and MySQL run inside containers; separate Mac PHP/MySQL installations are not required for this route.
+## How I will check my Mac setup
+I will install and open Docker Desktop for Mac, then open a terminal in this project folder. This setup runs PHP and MySQL in containers, so I do not need separate PHP/MySQL installations on my Mac.
 
 ```bash
 docker --version
@@ -23,11 +23,11 @@ docker compose up --build -d
 curl --fail http://localhost:8080/health
 ```
 
-Expected health response: project is Payday Preferred, a PHP version is present, and database_connected is true. Open http://localhost:8080/ in your browser to see the same response. If it fails, run `docker compose logs app db`. Port 8080 must be free. First startup downloads images and initializes MySQL; wait for startup to finish before testing.
+I expect the health response to show Payday Preferred, a PHP version, and database_connected set to true. I can open http://localhost:8080/ to see the same response. If it fails, I will run `docker compose logs app db`. I need port 8080 to be available and will let the first startup finish before testing.
 
-This package uses PHP 8.3 with Apache and PDO MySQL, MySQL 8.4, and Python 3.12 for tests. Apache is the chosen Option 1 local web server; the NGINX-specific requirement in Part 1 is explicitly stated for Option 2. Record actual versions/image digests after startup. The example passwords are disposable local test credentials. Only localhost:8080 is exposed; do not deploy this configuration publicly.
+This package uses PHP 8.3 with Apache and PDO MySQL, MySQL 8.4, and Python 3.12 for tests. Apache is the chosen Option 1 local web server; the NGINX-specific requirement in Part 1 is explicitly stated for Option 2. I will record the actual versions and image digests after startup. The example passwords are disposable local test credentials. Only localhost:8080 is exposed. I will use this configuration locally.
 
-Stop while preserving the test database:
+I can stop the containers and keep my test database with:
 ```bash
 docker compose down
 ```
@@ -36,16 +36,16 @@ docker compose down
 ```bash
 docker compose --profile test run --rm tests
 ```
-The current PHP file is an environment probe, not the completed budgeting application. The executable tests are expected to fail until Stage 1 business endpoints and the schema/reset fixture are implemented. See acceptance.md for fixtures and expected output. A passing health check only verifies PHP-to-MySQL connectivity.
+My current PHP file checks the environment. I still need to build the budgeting features. The executable tests are expected to fail until Stage 1 business endpoints and the schema/reset fixture are implemented. I have described test data and expected output in acceptance.md. A passing health check only verifies PHP-to-MySQL connectivity.
 
 ## Course workflow
-Submit these three individual files for Part 1: plan/HW4_part1_checklist.md, plan/HW4_plan_stage1.md and acceptance.md. Keep README at the repository root. Copy the progress text into your existing HW1 Canvas progress page and add its URL to the plan. Submission availability and credit must be confirmed with the professor.
+I need to submit these three individual files for Part 1: plan/HW4_part1_checklist.md, plan/HW4_plan_stage1.md and acceptance.md. I will keep README at the project root, copy my progress update to my HW1 Canvas page, and add that page’s URL to my plan. I will confirm submission availability and credit with my professor.
 
-The supplied tentative schedule lists Part 2 on November 21 and Part 3/HW5 on December 10. Confirm Canvas times. Part 2 submits stage1_evaluation.md and HW4_plan_stage2.md and updates the Canvas plan. Part 3 submits stage2_evaluation.md and records actual dates in the existing Stage 2 plan.
+The supplied tentative schedule lists Part 2 on November 21 and Part 3/HW5 on December 10. I will confirm the times on Canvas. Part 2 submits stage1_evaluation.md and HW4_plan_stage2.md and updates the Canvas plan. Part 3 submits stage2_evaluation.md and records actual dates in the existing Stage 2 plan.
 
-After each stage deadline, review all three assigned peers, run their setup/tests, verify one README/tutorial claim, and submit peer-review.md with scores out of 100, strengths, weaknesses, progress and product quality. The schedule says reviews are due two days after submission; check Canvas. HW4 instructions state missing peer review results in zero for that Part.
+After each stage deadline, I will review my three assigned peers, run their setup and tests, check one README or tutorial claim, and submit peer-review.md. I will give each peer a score out of 100 and discuss strengths, weaknesses, progress and product quality. The schedule says reviews are due two days after submission; I will check Canvas. HW4 instructions state missing peer review results in zero for that Part.
 
-Both runnable stages belong in code/stage1 and code/stage2 (Stage 2 to be created), presentation/ holds Marp material, and plan/ tracks planned/actual dates. Write a half-page comparison.md in Stage 2 covering automation, manual work, benefits/costs and test-result links; link it from HW5. Docker, GitHub Actions, Hugo and Marp are planned automation/documentation tools; Actions/Hugo are not implemented here.
+Both runnable stages belong in code/stage1 and code/stage2 (Stage 2 to be created), presentation/ holds Marp material, and plan/ tracks planned/actual dates. I will write a half-page comparison.md in Stage 2 about automation, manual work, benefits and costs, with links to my test results. I will link it from HW5. Docker, GitHub Actions, Hugo and Marp are planned automation/documentation tools; Actions/Hugo are not implemented here.
 
 ## References and AI assistance
 - Course assignment: https://nku.instructure.com/courses/92884/assignments/1628198
@@ -55,4 +55,4 @@ Both runnable stages belong in code/stage1 and code/stage2 (Stage 2 to be create
 - Docker Desktop Mac setup: https://docs.docker.com/desktop/setup/install/mac-install/
 - Documentation repository: https://github.com/8surfer-stack/csc640-documentation
 
-ChatGPT drafted these documents, the environment probe/configuration, and executable tests. Barnabas must review and be able to explain them. Add precise lecture file/page citations when course material is reused. No application acceptance test has been reported as passed.
+I used ChatGPT to help draft these documents, the setup files, and the executable tests. I still need to review the code and make sure I can explain it. I will cite the lecture files and page numbers when I use course material. I have not verified any passing application acceptance tests yet.
