@@ -1,7 +1,5 @@
 # My Stage 1 verification results
 
-Test date: November 11, 2026 (local time).
-
 ## Startup and database connection
 
 I ran `docker compose up --build -d` on my Mac.
