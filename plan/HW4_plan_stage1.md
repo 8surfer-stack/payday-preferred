@@ -23,9 +23,9 @@ These are my planned dates. I will add actual dates as I finish each item.
 
 | Milestone | What I will do | Planned date | Actual date | Notes |
 |---|---|---|---|---|
-| 1 | Finalize my acceptance criteria and check Canvas deadlines | Nov 10, 2026 | TBD | My project was approved Nov 3. I still need to finish the test details. |
-| 2 | Verify PHP/MySQL, prepare my database setup, README and test runner | Nov 11, 2026 | TBD | My README and test runner are prepared. I still need to verify my Mac setup and finish the database setup. |
-| 3 | Build income entry and allocation-rule validation | Nov 12, 2026 | TBD | I will test valid and invalid inputs and store money as whole cents. |
+| 1 | Finalize my acceptance criteria and check Canvas deadlines | Nov 10, 2026 | TBD | My project was approved Nov 3. I missed the Nov 10 target; the acceptance review and Canvas deadline check are still pending.
+| 2 | Verify PHP/MySQL, prepare my database setup, README and test runner | Nov 11, 2026 | TBD | On Nov 11, I verified PHP/MySQL connectivity and added schema.sql and its Docker mount. Fresh database initialization and the complete test fixture still need verification. |
+| 3 | Build income entry and allocation-rule validation | Nov 12, 2026 | TBD | Income entry and manual validation checks passed Nov 11. Allocation-rule validation is still pending. |
 | 4 | Build distribution calculations and simulated transfers | Nov 13, 2026 | TBD | I will check exact totals, rounding and complete saves. |
 | 5 | Build transaction history and run my acceptance tests | Nov 14, 2026 | TBD | I will record actual results and fix failures. |
 | 6 | Follow my README from a clean setup and update Canvas progress | Nov 16, 2026 | TBD | I will update my actual dates and references. |
@@ -34,7 +34,7 @@ These are my planned dates. I will add actual dates as I finish each item.
 | 9 | Review my three assigned peers and submit peer-review.md | Nov 23, 2026 | TBD | This date assumes submission on Nov 21; I will check Canvas. |
 
 ## What I still need to check
-- I need to verify my tools and database connection on my Mac.
+-  I've verified Docker, PHP and the MySQL connection on my Mac. I've also tested income entry. I still need to verify database initialization from a fresh setup and run the full acceptance suite.
 - I have not specified authentication in my proposal. If I protect any endpoints, I will test valid, missing and invalid tokens.
 - I need the Part 2 evaluation rubric to check the full grading requirements.
 - I will review Austin Kidwell, Josh Cramer and Kalkidan Alemu after the Stage 1 deadline, using the course template.

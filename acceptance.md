@@ -1,6 +1,10 @@
 # Payday Preferred: Shared Acceptance Contract
 
-I will use these acceptance checks for Stage 1 (PHP/MySQL) and Stage 2 (Laravel/MySQL). My professor approved my project on November 3, 2026. I still need to finish some interface details. The route names and HTTP statuses below are my proposed design choices. I have not run the application tests yet.
+I'll use these acceptance checks for Stage 1 (PHP/MySQL) and Stage 2
+(Laravel/MySQL). My professor approved my project on November 3, 2026.
+The route names and HTTP statuses below are my interface design choices.
+I've manually tested income entry on my Mac, but I haven't run the full
+automated acceptance suite yet.
 
 ## Data and proposed interface
 I'll use a disposable test database with sample data. The test fixture starts empty; the runner creates the 50% checking / 30% savings / 20% investment rule set when needed, with fixed ordering. Currency is USD, stored as integer cents. Rule percentages accept whole percentages from 0 to 100 and must total exactly 100. Each destination has a unique nonempty label. These are the limits I am proposing for my first version.
@@ -42,7 +46,11 @@ Errors return JSON with an error code. Invalid inputs return 422; unknown record
 
 Rounding: use largest remainders after flooring allocations to whole cents; break ties by saved destination order. This preserves the full income amount. I will include a tie test with a one-cent income and a 50/50 split: the first destination receives one cent and the second zero.
 
-Authentication is not specified in the approved HW1 proposal; project approval alone does not establish the detailed authentication design. If I protect any endpoint, I'll expand these checks with valid-token success plus missing-token and invalid-token rejection, expected status/content, and unchanged-state checks for each protected endpoint.
+My current Option 1 design is a local, single-user app with no
+protected endpoints, so token cases aren't applicable to this version.
+If I add protected endpoints, I'll test valid, missing, and invalid
+tokens for each one, including expected status, response content,
+and unchanged records after rejected requests.
 
 ## Executable acceptance tests
 
@@ -50,13 +58,28 @@ My executable test runner: [tests/acceptance.py](tests/acceptance.py), using Pyt
 
 I will run: `docker compose --profile test run --rm tests`
 
-I'll use the dedicated payday_test database. Before each full test run, I'll clear the application rows and allocation rules with the Stage 1 reset script once I have implemented it. The suite starts with empty rules/history, creates its own incomes and rules, and runs test_01 through test_06 in order. I'll keep these tests separate from personal data and existing demo data. There is no public reset endpoint. Stage 1 business endpoints and its schema/reset script are still implementation work; this Part 1 package supplies the PHP/MySQL environment probe and executable contract tests in advance.
+I'll use the dedicated payday_test database. Before each full test run, I'll clear the application rows and allocation rules with the Stage 1 reset script once I have implemented it. The suite starts with empty rules/history, creates its own incomes and rules, and runs test_01 through test_06 in order. I'll keep these tests separate from personal data and existing demo data. There is no public reset endpoint. The income endpoint and income table are implemented. I've saved the
+table setup in code/stage1/schema.sql and connected it to Docker's
+database initialization. Fresh database initialization, the remaining
+business endpoints, and the reset script still need implementation
+or verification.
 
 Contract details for implementation: successful previews return entries (ordered objects with label and amount_cents) plus total_cents. Simulation additionally returns integer batch_id and income_id and simulated=true. History returns batches containing those same complete objects. IDs are positive integers. All error responses include a nonempty string error. The monetary baseline uses positive integer cents up to 100000000; I'll add upper-bound checks in the implementation and tests before expanding the scope. Unexpected malformed JSON must return 400 with an error string. API routes are a proposed local single-user baseline; if I add protection, I'll add valid, missing and invalid token cases for every protected route.
 
-I still need an executable check that saved data survives an application restart. I'll record that separately from the history-read check. Once the schema exists, I will also verify that failed income requests create no rows.
+I still need an executable check that saved data survives an application
+restart. I've manually verified that failed income requests create no
+rows; I still need to automate that database check.
 
 I will run the same tests against both stages, changing only the base URL and documented data setup. I'll fix failures without weakening the tests.
 
 ## Results
-See [tests/results/stage1.md](tests/results/stage1.md). I have not verified a passing application test. ChatGPT checked the Python syntax successfully, but could not run PHP, MySQL or Docker in its workspace. Full acceptance tests are expected to fail against the environment probe because business endpoints are not implemented yet.
+See [tests/results/stage1.md](tests/results/stage1.md).
+
+I verified PHP/MySQL connectivity and manually
+tested income entry. A valid $1,000 paycheck was saved. Zero, negative,
+text, missing, and fractional amounts returned HTTP 422. A database
+query confirmed that only the valid paycheck was saved.
+
+ChatGPT previously checked the Python test runner's syntax successfully.
+I haven't run the full automated acceptance suite. Allocation rules,
+distribution previews, simulated transfers, and history are still pending.

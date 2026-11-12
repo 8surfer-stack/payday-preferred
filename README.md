@@ -36,7 +36,19 @@ docker compose down
 ```bash
 docker compose --profile test run --rm tests
 ```
-My current PHP file checks the environment. I still need to build the budgeting features. The executable tests are expected to fail until Stage 1 business endpoints and the schema/reset fixture are implemented. I have described test data and expected output in acceptance.md. A passing health check only verifies PHP-to-MySQL connectivity.
+My app now connects to MySQL and saves valid income entries.
+I manually checked that zero, negative, text, missing, and fractional
+amounts return HTTP 422 without adding database rows. I've recorded
+those results in tests/results/stage1.md.
+
+I added code/stage1/schema.sql and connected it to the MySQL startup
+configuration. Automatic table creation on a fresh database hasn't
+been verified yet.
+
+I still need to implement allocation rules, distribution previews,
+simulated transfers, and transaction history. I haven't run the full
+automated acceptance suite yet. The manual income checks don't mean
+the full suite passes.
 
 ## Course workflow
 I need to submit these three individual files for Part 1: plan/HW4_part1_checklist.md, plan/HW4_plan_stage1.md and acceptance.md. I'll keep README at the project root, copy my progress update to my HW1 Canvas page, and add that page’s URL to my plan. I'll confirm submission availability and credit with my professor.
@@ -55,4 +67,4 @@ Both runnable stages belong in code/stage1 and code/stage2 (Stage 2 to be create
 - Docker Desktop Mac setup: https://docs.docker.com/desktop/setup/install/mac-install/
 - Documentation repository: https://github.com/8surfer-stack/csc640-documentation
 
-I used ChatGPT to help draft these documents, the setup files, and the executable tests. I still need to review the code and make sure I can explain it. I'll cite the lecture files and page numbers when I use course material. I have not verified any passing application acceptance tests yet.
+I used ChatGPT to help draft these documents, the setup files, and the executable tests. I still need to review the code and make sure I can explain it. I'll cite the lecture files and page numbers when I use course material. I've verified the startup check and manual income tests on my Mac. The full automated acceptance suite is still unverified.
