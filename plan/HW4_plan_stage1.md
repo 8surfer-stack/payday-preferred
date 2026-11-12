@@ -40,8 +40,7 @@ These are my planned dates. I will add actual dates as I finish each item.
 - I will review Austin Kidwell, Josh Cramer and Kalkidan Alemu after the Stage 1 deadline, using the course template.
 
 ## My Canvas progress page
-Canvas HW1 progress URL: TBD.
-I still need to add my repository link and current plan to that page.
+Canvas HW1 progress URL: https://nku.instructure.com/courses/92884/pages/individual-project-progress-page-of-barnabas-olatoyan-in-csc640
 
 ## Preparing for Stage 2
 I will submit HW4_plan_stage2.md with Part 2. I will keep both stages runnable, use the same acceptance tests, and record the results. I will write a half-page comparison.md explaining what the higher-level tools automated, what I still did manually, and the benefits and costs. I will link my test results and refer to this memo in HW5 instead of copying it. For Part 3, I will submit stage2_evaluation.md and record actual dates in my existing Stage 2 plan.

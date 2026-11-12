@@ -10,24 +10,24 @@ marp: true
 
 ## Project and Criteria
 
-- [ x ] I am using the project and scope approved in HW1.
-- [ x ] I wrote `acceptance.md` with success and failure cases (including token cases) for every endpoint or workflow.
+- [x] I am using the project and scope approved in HW1.
+- [x] I wrote `acceptance.md` with success and failure cases (including token cases) for every endpoint or workflow.
 
 ---
 
 ## Stage 1 Readiness
 
-- [ ] My HW1 GitHub repository and required tools still work.
-- [ x ] Option 2: PHP runs through NGINX and connects to MySQL. Option 1: my approved project runs.
+- [x] My HW1 GitHub repository and required tools still work.
+- [x] Option 2: PHP runs through NGINX and connects to MySQL. Option 1: my approved project runs.
 - [x] I created `HW4_plan_stage1.md` with milestones and deadlines.
 - [x] I made README.md in my HW1 GitHub repository.
-- [ ] I uploaded this plan on my HW1 Canvas progress page.
+- [x] I uploaded this plan on my HW1 Canvas progress page.
 
 ---
 
 ## Submit
 
-- [ ] I submitted this checklist, `HW4_plan_stage1.md`, and `acceptance.md` on Canvas.
+- [x] I submitted this checklist, `HW4_plan_stage1.md`, and `acceptance.md` on Canvas.
 
 ## My progress notes
 
