@@ -1,6 +1,8 @@
 # My Stage 1 verification results
 
-## Startup and database connection
+## Earlier manual checks
+
+### Startup and database connection
 
 I ran `docker compose up --build -d` on my Mac.
 The app container started, and MySQL reported healthy.
@@ -58,15 +60,22 @@ Actual: One row remained:
 
 Result: PASS. None of the invalid requests added a row.
 
-## What still needs testing
+## November 21, 2026 · Clean Stage 1 run on my Mac
 
-These results cover startup and the income requests listed above.
-They don't mean the full Stage 1 acceptance suite passes.
+I checked out `hw4-part2` and ran the suite in the separate `payday-stage1-check` Compose project. Docker created a new database volume, reported MySQL healthy, and started the app and NGINX. The health response through port 8080 reported PHP 8.3.37 and `database_connected: true`.
 
-The Part 2 review branch adds the other five API routes and the schema for a clean test database. End-to-end results through NGINX are pending. Also verify that a saved batch remains available after an app restart.
+Tested branch revision inferred from the checkout before this documentation update: [705a484](https://github.com/8surfer-stack/payday-preferred/tree/705a48458a6b56617adec8f767e8722d74b64168). My screenshot shows the branch tracking its remote. It does not show a separate commit hash command.
 
-ChatGPT previously checked the Python syntax with:
-`python3 -m py_compile tests/acceptance.py`
+```bash
+docker compose -p payday-stage1-check up --build -d
+curl --fail http://localhost:8080/health
+docker compose -p payday-stage1-check --profile test run --rm tests
+```
 
-That check passed, but it doesn't count as an application test.
-I haven't run the full automated acceptance suite yet.
+```text
+Ran 6 tests in 0.126s
+
+OK
+```
+
+All six automated tests passed through NGINX and MySQL. A separate restart persistence check and a browser walkthrough of the HTML test page are still pending.
