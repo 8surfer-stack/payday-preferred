@@ -1,6 +1,7 @@
 """Shared black-box contract tests. Run only against a clean disposable database."""
 import argparse
 import json
+import os
 import sys
 import unittest
 from urllib.request import Request, urlopen
@@ -10,13 +11,16 @@ parser = argparse.ArgumentParser()
 parser.add_argument('--base-url', default='http://localhost:8080')
 args = parser.parse_args()
 BASE = args.base_url.rstrip('/')
+SIMULATION_TOKEN = os.environ.get('PAYDAY_SIMULATION_TOKEN', 'payday_local_test_only')
 RULES = [{'label': x, 'percentage': p} for x, p in [('checking', 50), ('savings', 30), ('investment', 20)]]
 
 class Acceptance(unittest.TestCase):
-    def call(self, method, path, data=None, expected=200):
+    def call(self, method, path, data=None, expected=200, authenticated=True, token=SIMULATION_TOKEN):
         body = None if data is None else json.dumps(data).encode()
-        req = Request(BASE + path, data=body, method=method,
-                      headers={'Content-Type': 'application/json'})
+        headers = {'Content-Type': 'application/json'}
+        if path == '/api/transfers/simulate' and authenticated:
+            headers['Authorization'] = 'Bearer ' + token
+        req = Request(BASE + path, data=body, method=method, headers=headers)
         try:
             with urlopen(req, timeout=10) as r:
                 status, raw = r.status, r.read()
@@ -93,7 +97,12 @@ class Acceptance(unittest.TestCase):
     def test_06_simulation_and_history(self):
         self.rules()
         income_id = self.income(100000)
-        value = self.call('POST', '/api/transfers/simulate', {'income_id':income_id}, 201)
+        payload = {'income_id': income_id}
+        path = '/api/transfers/simulate'
+        self.call('POST', path, payload, 401, authenticated=False)
+        self.call('POST', path, payload, 401, token=SIMULATION_TOKEN + '-invalid')
+        self.assertEqual(self.call('GET', '/api/transactions')['batches'], [])
+        value = self.call('POST', path, payload, 201)
         self.assertIsInstance(value['batch_id'], int)
         self.assertEqual(value['income_id'], income_id)
         self.assertIs(value['simulated'], True)

@@ -9,7 +9,7 @@ Run `docker compose up --build -d` from the project root.
 Open `http://localhost:8080/health` to check MySQL connectivity.
 Open `http://localhost:8080/test.html` to try each endpoint through NGINX.
 
-Requests with bodies use JSON. Amounts are whole USD cents. This local Option 1 API has no authentication. Transfers are simulated.
+Requests with bodies use JSON. Amounts are whole USD cents. Transfer simulation uses a bearer token. Transfers are simulated.
 
 ---
 
@@ -35,7 +35,7 @@ HTTP 200 returns `entries` with labels and cent amounts plus `total_cents`.
 An unknown ID returns 404 and `{"error":"income_not_found"}`.
 
 **POST /api/transfers/simulate**  
-Send the same income ID. HTTP 201 saves one batch and returns its `batch_id`, `income_id`, `total_cents`, `entries`, and `simulated: true`.  
+Send the same income ID with `Authorization: Bearer <token>`. Missing or invalid tokens return 401. HTTP 201 saves one batch and returns its `batch_id`, `income_id`, `total_cents`, `entries`, and `simulated: true`.
 Retrying that income returns 409 and `{"error":"transfer_already_simulated"}`.
 
 ---

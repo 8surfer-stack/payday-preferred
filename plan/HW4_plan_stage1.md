@@ -24,7 +24,7 @@ These are my planned dates. I will add actual dates as I finish each item.
 | Milestone | What I will do | Planned date | Actual date | Notes |
 |---|---|---|---|---|
 | 1 | Finalize my acceptance criteria and check Canvas deadlines | Nov 10, 2026 | TBD | My project was approved Nov 3. I missed the Nov 10 target; the acceptance review and Canvas deadline check are still pending.
-| 2 | Verify PHP/MySQL, prepare my database setup, README and test runner | Nov 11, 2026 | TBD | On Nov 11, I verified PHP/MySQL connectivity and added schema.sql and its Docker mount. Fresh database initialization and the complete test fixture still need verification. |
+| 2 | Verify PHP/MySQL, prepare my database setup, README and test runner | Nov 11, 2026 | Nov 11, 2026 | I verified PHP/MySQL connectivity and prepared the schema and Docker mount. My README and executable test runner were already present. The later clean run verified the setup on Nov 21. [Nov 11 commit](https://github.com/8surfer-stack/payday-preferred/commit/594a854) · [Test results](../tests/results/stage1.md) |
 | 3 | Build income entry and allocation-rule validation | Nov 12, 2026 | TBD | Income entry and manual validation checks passed Nov 11. Allocation-rule validation was implemented Nov 20, after the milestone target. End-to-end verification is pending. |
 | 4 | Build distribution calculations and simulated transfers | Nov 13, 2026 | TBD | The code was added Nov 20 after the planned date. Verifying exact totals, rounding, and complete saves is pending. |
 | 5 | Build transaction history and run my acceptance tests | Nov 14, 2026 | TBD | History routes were added Nov 20. Running the automated suite remains pending. |

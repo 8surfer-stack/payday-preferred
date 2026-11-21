@@ -17,6 +17,7 @@ services:
   app:
     build: ./code/stage1
     environment:
+      PAYDAY_SIMULATION_TOKEN: ${PAYDAY_SIMULATION_TOKEN:-payday_local_test_only}
       DB_HOST: db
       DB_NAME: payday_test
       DB_USER: payday
@@ -37,6 +38,8 @@ services:
   tests:
     image: python:3.12-slim
     profiles: [test]
+    environment:
+      PAYDAY_SIMULATION_TOKEN: ${PAYDAY_SIMULATION_TOKEN:-payday_local_test_only}
     working_dir: /work
     volumes:
       - ./tests:/work:ro

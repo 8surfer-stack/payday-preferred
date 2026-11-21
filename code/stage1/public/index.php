@@ -88,6 +88,13 @@ try {
     }
 
     if ($method === 'POST' && $path === '/api/transfers/simulate') {
+        $token = getenv('PAYDAY_SIMULATION_TOKEN');
+        $headers = array_change_key_case(getallheaders(), CASE_LOWER);
+        $authorization = $headers['authorization'] ?? '';
+        if ($token === false || $token === '' || !hash_equals('Bearer ' . $token, $authorization)) {
+            header('WWW-Authenticate: Bearer');
+            respond(401, ['error' => 'unauthorized']);
+        }
         distribute($pdo, requestData(), true);
     }
 

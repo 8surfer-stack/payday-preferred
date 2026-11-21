@@ -46,11 +46,7 @@ Errors return JSON with an error code. Invalid inputs return 422; unknown record
 
 Rounding: use largest remainders after flooring allocations to whole cents; break ties by saved destination order. This preserves the full income amount. I will include a tie test with a one-cent income and a 50/50 split: the first destination receives one cent and the second zero.
 
-My current Option 1 design is a local, single-user app with no
-protected endpoints, so token cases aren't applicable to this version.
-If I add protected endpoints, I'll test valid, missing, and invalid
-tokens for each one, including expected status, response content,
-and unchanged records after rejected requests.
+Stage 1 protects `POST /api/transfers/simulate` with `Authorization: Bearer <token>`. Missing and invalid tokens return 401 with `{"error":"unauthorized"}` and leave transfer history unchanged. The suite verifies those checks and a successful request with the configured token. I added this protection after the HW1 proposal.
 
 ## Executable acceptance tests
 
@@ -64,7 +60,7 @@ database initialization. Fresh database initialization, the remaining
 business endpoints, and the reset script still need implementation
 or verification.
 
-Contract details for implementation: successful previews return entries (ordered objects with label and amount_cents) plus total_cents. Simulation additionally returns integer batch_id and income_id and simulated=true. History returns batches containing those same complete objects. IDs are positive integers. All error responses include a nonempty string error. The monetary baseline uses positive integer cents up to 100000000; I'll add upper-bound checks in the implementation and tests before expanding the scope. Unexpected malformed JSON must return 400 with an error string. API routes are a proposed local single-user baseline; if I add protection, I'll add valid, missing and invalid token cases for every protected route.
+Contract details for implementation: successful previews return entries (ordered objects with label and amount_cents) plus total_cents. Simulation additionally returns integer batch_id and income_id and simulated=true. History returns batches containing those same complete objects. IDs are positive integers. All error responses include a nonempty string error. The monetary baseline uses positive integer cents up to 100000000; I'll add upper-bound checks in the implementation and tests before expanding the scope. Unexpected malformed JSON must return 400 with an error string. Stage 2 will preserve the same simulation access behavior.
 
 I still need an executable check that saved data survives an application
 restart. I've manually verified that failed income requests create no

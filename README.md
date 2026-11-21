@@ -42,6 +42,8 @@ I use `docker compose down` to stop the containers and keep the database volume.
 docker compose down
 ```
 
+The simulation route requires a bearer token. The local Compose default is `payday_local_test_only`. The browser test page presents a token field for simulation. The API and acceptance runner use the same `PAYDAY_SIMULATION_TOKEN` Compose setting.
+
 ## Run acceptance tests
 
 My acceptance test setup uses a separate Compose project with empty history and allocation rules. This setup needs port 8080 free.
