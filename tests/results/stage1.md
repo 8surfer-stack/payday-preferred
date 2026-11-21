@@ -96,3 +96,15 @@ These checks verify the browser page's success and error displays for income ent
 I sent `GET /api/transactions/1` from the browser test page before and after running `docker compose -p payday-stage1-check restart app`. Both requests returned HTTP 200 with the same response: batch ID 1, income ID 5, total 100000 cents, and `simulated: true`. Checking, savings, and investment received 50000, 30000, and 20000 cents respectively.
 
 Result: PASS. The saved batch remained available with the same amounts after the application container restarted, satisfying acceptance case H2.
+
+## Protected simulation route · November 21, 2026
+
+I pulled `hw4-part2` and ran the updated suite on my Mac through NGINX and MySQL in the fresh `payday-stage1-auth-check` Compose project. Docker created a new database volume and reported MySQL healthy.
+
+```text
+Ran 6 tests in 0.104s
+
+OK
+```
+
+The passing `test_06_simulation_and_history` checks that a missing token and an invalid token each return HTTP 401, history stays empty after both rejections, and a valid token returns HTTP 201 and creates the expected batch. It also verifies the saved history and duplicate handling. The terminal evidence shows the branch update command and test summary.
