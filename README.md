@@ -15,7 +15,7 @@ Stage 1 records income, splits it using customizable percentages, and saves simu
 - [Canvas progress text](plan/canvas-progress.md)
 
 ## Run Stage 1
-I'll install and open Docker Desktop for Mac, then open a terminal in this project folder. This setup runs PHP and MySQL in containers, so I do not need separate PHP/MySQL installations on my Mac.
+I use Docker Desktop on my Mac to run PHP and MySQL in containers. These are the commands for starting Stage 1 from the project folder and checking the database connection.
 
 ```bash
 docker --version
@@ -25,26 +25,26 @@ docker compose up --build -d
 curl --fail http://localhost:8080/health
 ```
 
-I expect the health response to show Payday Preferred, a PHP version, and database_connected set to true. I can open http://localhost:8080/ to see the same response. If it fails, I'll run `docker compose logs app db`. I need port 8080 to be available and will let the first startup finish before testing.
+The health response shows the project name, PHP version, and `database_connected: true` once MySQL is reachable. The root URL returns the same response. I use `docker compose logs nginx app db` to diagnose startup issues. The setup uses local port 8080.
 
 NGINX listens on localhost:8080 and forwards to the PHP 8.3 Apache container. MySQL 8.4 stores the project data. The example passwords are disposable local test credentials.
 
-Open `http://localhost:8080/test.html` to send requests to all six routes. Use the income ID returned when you create a paycheck, and the batch ID returned from a simulation.
+My browser test page at `http://localhost:8080/test.html` sends requests to all six routes and displays the HTTP status and response. The preview and simulation routes use the ID from income entry. The transaction detail route uses the batch ID from a simulation.
 
-Fresh databases apply the schema on startup. If your Docker volume predates this branch, apply the same schema once to create the missing tables without deleting income records:
+MySQL loads the schema on first startup with a fresh volume. For an existing Stage 1 volume, this command applies the updated schema and adds the allocation and transfer tables while preserving saved income records.
 
 ```bash
 docker compose exec -T db sh -c 'mysql -u"$MYSQL_USER" -p"$MYSQL_PASSWORD" "$MYSQL_DATABASE"' < code/stage1/schema.sql
 ```
 
-I can stop the containers and keep my test database with:
+I use `docker compose down` to stop the containers and keep the database volume.
 ```bash
 docker compose down
 ```
 
 ## Run acceptance tests
 
-Use a fresh, dedicated Compose project so the runner starts with empty history and allocation rules. Stop any project already listening on port 8080 first.
+My acceptance test setup uses a separate Compose project with empty history and allocation rules. This setup needs port 8080 free.
 
 ```bash
 docker compose -p payday-stage1-check up --build -d
@@ -52,11 +52,11 @@ curl --fail http://localhost:8080/health
 docker compose -p payday-stage1-check --profile test run --rm tests
 ```
 
-If the health check is still starting, retry it before running the suite. Save the observed pass/fail output in [the Stage 1 results](tests/results/stage1.md). Run repeat checks with a fresh, uniquely named Compose project. You can remove the disposable project and its test data after recording results with `docker compose -p payday-stage1-check down --volumes`.
+I wait for the health check to succeed before running the suite. Each repeat run uses a fresh Compose project with a unique name. I record the output in [the Stage 1 results](tests/results/stage1.md). `docker compose -p payday-stage1-check down --volumes` removes the disposable project and its test data.
 
 ## Reviewer version
 
-Use the HW4 Part 2 review branch and record the exact commit with `git rev-parse HEAD`. The saved results document startup, MySQL connectivity, and manual income checks from the earlier implementation. The full automated suite for this branch is pending.
+The `hw4-part2` branch contains my Part 2 review version. `git rev-parse HEAD` identifies the exact commit for a test run. The saved results document startup, MySQL connectivity, and manual income checks from the earlier implementation. The full automated suite for this branch is pending.
 
 ## Course workflow
 I need to submit these three individual files for Part 1: plan/HW4_part1_checklist.md, plan/HW4_plan_stage1.md and acceptance.md. I'll keep README at the project root, copy my progress update to my HW1 Canvas page, and add that page’s URL to my plan. I'll confirm submission availability and credit with my professor.
@@ -75,4 +75,4 @@ Both runnable stages belong in code/stage1 and code/stage2 (Stage 2 to be create
 - Docker Desktop Mac setup: https://docs.docker.com/desktop/setup/install/mac-install/
 - Documentation repository: https://github.com/8surfer-stack/csc640-documentation
 
-I used ChatGPT to help draft these documents, the setup files, and the executable tests. I still need to review the code and make sure I can explain it. I'll cite the lecture files and page numbers when I use course material. I've verified the startup check and manual income tests on my Mac. The full automated acceptance suite is still unverified.
+I used ChatGPT to help draft these documents, the setup files, and the executable tests. I still need to review the code and make sure I can explain it. I'll cite the lecture files and page numbers when I use course material. I verified startup and manually tested income entry on my Mac with the earlier Stage 1 setup. The full acceptance run through NGINX and MySQL is pending.
