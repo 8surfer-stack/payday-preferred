@@ -56,7 +56,7 @@ I wait for the health check to succeed before running the suite. Each repeat run
 
 ## Reviewer version
 
-The `hw4-part2` branch contains my Part 2 review version. `git rev-parse HEAD` identifies the exact commit for a test run. The saved results document startup, MySQL connectivity, and manual income checks from the earlier implementation. The full automated suite for this branch is pending.
+The `hw4-part2` branch contains my Part 2 review version. `git rev-parse HEAD` identifies the exact commit for a test run. The [Stage 1 results](tests/results/stage1.md) record my November 21 clean setup and six passing automated tests through NGINX and MySQL, along with the earlier manual income checks.
 
 ## Course workflow
 I need to submit these three individual files for Part 1: plan/HW4_part1_checklist.md, plan/HW4_plan_stage1.md and acceptance.md. I'll keep README at the project root, copy my progress update to my HW1 Canvas page, and add that page’s URL to my plan. I'll confirm submission availability and credit with my professor.
@@ -75,4 +75,4 @@ Both runnable stages belong in code/stage1 and code/stage2 (Stage 2 to be create
 - Docker Desktop Mac setup: https://docs.docker.com/desktop/setup/install/mac-install/
 - Documentation repository: https://github.com/8surfer-stack/csc640-documentation
 
-I used ChatGPT to help draft these documents, the setup files, and the executable tests. I still need to review the code and make sure I can explain it. I'll cite the lecture files and page numbers when I use course material. I verified startup and manually tested income entry on my Mac with the earlier Stage 1 setup. The full acceptance run through NGINX and MySQL is pending.
+I used ChatGPT to help draft these documents, the setup files, and the executable tests. I still need to review the code and make sure I can explain it. I'll cite the lecture files and page numbers when I use course material. I verified startup and manually tested income entry on my Mac with the earlier Stage 1 setup. All six automated tests passed through NGINX and MySQL on November 21.
