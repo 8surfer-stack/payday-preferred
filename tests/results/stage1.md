@@ -78,4 +78,15 @@ Ran 6 tests in 0.126s
 OK
 ```
 
-All six automated tests passed through NGINX and MySQL. A separate restart persistence check and a browser walkthrough of the HTML test page are still pending.
+All six automated tests passed through NGINX and MySQL. A separate restart persistence check is still pending.
+
+## Browser test page · November 21, 2026
+
+I used `http://localhost:8080/test.html` to send two requests to `POST /api/incomes`.
+
+| Input | Observed response | Result |
+|---|---|---|
+| `amount_cents: 0` | Error · HTTP 422 with `{"error":"invalid_amount"}` | Pass |
+| `amount_cents: 100000` | Success · HTTP 201 with `{"id":6,"amount_cents":100000,"description":"Test paycheck"}` | Pass |
+
+These checks verify the browser page's success and error displays for income entry. The automated suite provides separate API coverage.
