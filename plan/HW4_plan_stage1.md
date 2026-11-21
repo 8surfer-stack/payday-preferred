@@ -30,7 +30,7 @@ These are my planned dates. I will add actual dates as I finish each item.
 | 5 | Build transaction history and run my acceptance tests | Nov 14, 2026 | TBD | History routes were added Nov 20. Running the automated suite remains pending. |
 | 6 | Follow my README from a clean setup and update Canvas progress | Nov 16, 2026 | TBD | I will update my actual dates and references. |
 | 7 | Finish my Stage 1 evaluation and Stage 2 plan | Nov 17, 2026 | TBD | This is my internal completion target. |
-| 8 | Submit Part 2 and update my HW1 Canvas progress page | Nov 21, 2026 | TBD | I will check the due time and submission availability. |
+| 8 | Submit Part 2 and update my HW1 Canvas progress page | Nov 21, 2026 | TBD | I posted my weekly update and Stage 2 master-plan link on my HW1 Canvas progress page on Nov 21 and checked both links. Part 2 file submission is pending. |
 | 9 | Review my three assigned peers and submit peer-review.md | Nov 23, 2026 | TBD | This date assumes submission on Nov 21; I will check Canvas. |
 
 ## What I still need to check
