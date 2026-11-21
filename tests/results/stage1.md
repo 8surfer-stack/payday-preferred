@@ -78,7 +78,7 @@ Ran 6 tests in 0.126s
 OK
 ```
 
-All six automated tests passed through NGINX and MySQL. A separate restart persistence check is still pending.
+All six automated tests passed through NGINX and MySQL.
 
 ## Browser test page · November 21, 2026
 
@@ -90,3 +90,9 @@ I used `http://localhost:8080/test.html` to send two requests to `POST /api/inco
 | `amount_cents: 100000` | Success · HTTP 201 with `{"id":6,"amount_cents":100000,"description":"Test paycheck"}` | Pass |
 
 These checks verify the browser page's success and error displays for income entry. The automated suite provides separate API coverage.
+
+## Saved transfer after app restart · November 21, 2026
+
+I sent `GET /api/transactions/1` from the browser test page before and after running `docker compose -p payday-stage1-check restart app`. Both requests returned HTTP 200 with the same response: batch ID 1, income ID 5, total 100000 cents, and `simulated: true`. Checking, savings, and investment received 50000, 30000, and 20000 cents respectively.
+
+Result: PASS. The saved batch remained available with the same amounts after the application container restarted, satisfying acceptance case H2.
