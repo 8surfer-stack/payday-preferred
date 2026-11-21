@@ -63,11 +63,7 @@ Result: PASS. None of the invalid requests added a row.
 These results cover startup and the income requests listed above.
 They don't mean the full Stage 1 acceptance suite passes.
 
-I still need to implement and test allocation rules, distribution
-previews, simulated transfers, and transaction history.
-
-I'll also save the database setup as a project file so I can
-recreate the table without typing the SQL manually.
+The Part 2 review branch adds the other five API routes and the schema for a clean test database. End-to-end results through NGINX are pending. Also verify that a saved batch remains available after an app restart.
 
 ChatGPT previously checked the Python syntax with:
 `python3 -m py_compile tests/acceptance.py`

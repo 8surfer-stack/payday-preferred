@@ -16,8 +16,6 @@ services:
       retries: 30
   app:
     build: ./code/stage1
-    ports:
-      - "127.0.0.1:8080:80"
     environment:
       DB_HOST: db
       DB_NAME: payday_test
@@ -28,14 +26,22 @@ services:
         condition: service_healthy
     volumes:
       - ./code/stage1/public:/var/www/html:ro
+  nginx:
+    image: nginx:stable-alpine
+    ports:
+      - "127.0.0.1:8080:80"
+    volumes:
+      - ./code/stage1/nginx.conf:/etc/nginx/conf.d/default.conf:ro
+    depends_on:
+      - app
   tests:
     image: python:3.12-slim
     profiles: [test]
     working_dir: /work
     volumes:
       - ./tests:/work:ro
-    command: ["python", "acceptance.py", "--base-url", "http://app"]
+    command: ["python", "acceptance.py", "--base-url", "http://nginx"]
     depends_on:
-      - app
+      - nginx
 volumes:
   payday_test_data:

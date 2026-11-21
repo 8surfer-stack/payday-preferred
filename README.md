@@ -2,9 +2,11 @@
 
 I am building Payday Preferred for CSC 640 under Option 1. My professor approved my project on November 3, 2026.
 
-My app will record income, split it using customizable percentages, and save simulated-transfer history. I will use PHP/MySQL for Stage 1 and Laravel/MySQL for Stage 2, with the same acceptance tests for both. I'll simulate transfers without moving real money.
+Stage 1 records income, splits it using customizable percentages, and saves simulated-transfer history. I will use PHP/MySQL for Stage 1 and Laravel/MySQL for Stage 2, with the same acceptance tests for both. I'll simulate transfers without moving real money.
 
-## Part 1 files
+## HW4 files
+- [Stage 2 plan](plan/HW4_plan_stage2.md)
+- [Stage 1 API tutorial](presentation/stage1-tutorial.md) ([PDF](presentation/stage1-tutorial.pdf))
 - [Stage 1 plan](plan/HW4_plan_stage1.md)
 - [Part 1 checklist](plan/HW4_part1_checklist.md)
 - [Acceptance contract](acceptance.md)
@@ -12,7 +14,7 @@ My app will record income, split it using customizable percentages, and save sim
 - [Verification status](tests/results/stage1.md)
 - [Canvas progress text](plan/canvas-progress.md)
 
-## How I will check my Mac setup
+## Run Stage 1
 I'll install and open Docker Desktop for Mac, then open a terminal in this project folder. This setup runs PHP and MySQL in containers, so I do not need separate PHP/MySQL installations on my Mac.
 
 ```bash
@@ -25,7 +27,15 @@ curl --fail http://localhost:8080/health
 
 I expect the health response to show Payday Preferred, a PHP version, and database_connected set to true. I can open http://localhost:8080/ to see the same response. If it fails, I'll run `docker compose logs app db`. I need port 8080 to be available and will let the first startup finish before testing.
 
-This package uses PHP 8.3 with Apache and PDO MySQL, MySQL 8.4, and Python 3.12 for tests. Apache is the chosen Option 1 local web server; the NGINX-specific requirement in Part 1 is explicitly stated for Option 2. I'll record the actual versions and image digests after startup. The example passwords are disposable local test credentials. Only localhost:8080 is exposed. I'll use this configuration locally.
+NGINX listens on localhost:8080 and forwards to the PHP 8.3 Apache container. MySQL 8.4 stores the project data. The example passwords are disposable local test credentials.
+
+Open `http://localhost:8080/test.html` to send requests to all six routes. Use the income ID returned when you create a paycheck, and the batch ID returned from a simulation.
+
+Fresh databases apply the schema on startup. If your Docker volume predates this branch, apply the same schema once to create the missing tables without deleting income records:
+
+```bash
+docker compose exec -T db sh -c 'mysql -u"$MYSQL_USER" -p"$MYSQL_PASSWORD" "$MYSQL_DATABASE"' < code/stage1/schema.sql
+```
 
 I can stop the containers and keep my test database with:
 ```bash
@@ -33,22 +43,20 @@ docker compose down
 ```
 
 ## Run acceptance tests
+
+Use a fresh, dedicated Compose project so the runner starts with empty history and allocation rules. Stop any project already listening on port 8080 first.
+
 ```bash
-docker compose --profile test run --rm tests
+docker compose -p payday-stage1-check up --build -d
+curl --fail http://localhost:8080/health
+docker compose -p payday-stage1-check --profile test run --rm tests
 ```
-My app now connects to MySQL and saves valid income entries.
-I manually checked that zero, negative, text, missing, and fractional
-amounts return HTTP 422 without adding database rows. I've recorded
-those results in tests/results/stage1.md.
 
-I added code/stage1/schema.sql and connected it to the MySQL startup
-configuration. Automatic table creation on a fresh database hasn't
-been verified yet.
+If the health check is still starting, retry it before running the suite. Save the observed pass/fail output in [the Stage 1 results](tests/results/stage1.md). Run repeat checks with a fresh, uniquely named Compose project. You can remove the disposable project and its test data after recording results with `docker compose -p payday-stage1-check down --volumes`.
 
-I still need to implement allocation rules, distribution previews,
-simulated transfers, and transaction history. I haven't run the full
-automated acceptance suite yet. The manual income checks don't mean
-the full suite passes.
+## Reviewer version
+
+Use the HW4 Part 2 review branch and record the exact commit with `git rev-parse HEAD`. The saved results document startup, MySQL connectivity, and manual income checks from the earlier implementation. The full automated suite for this branch is pending.
 
 ## Course workflow
 I need to submit these three individual files for Part 1: plan/HW4_part1_checklist.md, plan/HW4_plan_stage1.md and acceptance.md. I'll keep README at the project root, copy my progress update to my HW1 Canvas page, and add that page’s URL to my plan. I'll confirm submission availability and credit with my professor.

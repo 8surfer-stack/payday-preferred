@@ -58,7 +58,7 @@ My executable test runner: [tests/acceptance.py](tests/acceptance.py), using Pyt
 
 I will run: `docker compose --profile test run --rm tests`
 
-I'll use the dedicated payday_test database. Before each full test run, I'll clear the application rows and allocation rules with the Stage 1 reset script once I have implemented it. The suite starts with empty rules/history, creates its own incomes and rules, and runs test_01 through test_06 in order. I'll keep these tests separate from personal data and existing demo data. There is no public reset endpoint. The income endpoint and income table are implemented. I've saved the
+For each full run, I’ll use a fresh disposable Compose project following the README. The suite starts with empty rules/history, creates its own incomes and rules, and runs test_01 through test_06 in order. I'll keep these tests separate from personal data and existing demo data. There is no public reset endpoint. The income endpoint and income table are implemented. I've saved the
 table setup in code/stage1/schema.sql and connected it to Docker's
 database initialization. Fresh database initialization, the remaining
 business endpoints, and the reset script still need implementation

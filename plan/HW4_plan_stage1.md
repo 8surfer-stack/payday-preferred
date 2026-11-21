@@ -25,9 +25,9 @@ These are my planned dates. I will add actual dates as I finish each item.
 |---|---|---|---|---|
 | 1 | Finalize my acceptance criteria and check Canvas deadlines | Nov 10, 2026 | TBD | My project was approved Nov 3. I missed the Nov 10 target; the acceptance review and Canvas deadline check are still pending.
 | 2 | Verify PHP/MySQL, prepare my database setup, README and test runner | Nov 11, 2026 | TBD | On Nov 11, I verified PHP/MySQL connectivity and added schema.sql and its Docker mount. Fresh database initialization and the complete test fixture still need verification. |
-| 3 | Build income entry and allocation-rule validation | Nov 12, 2026 | TBD | Income entry and manual validation checks passed Nov 11. Allocation-rule validation is still pending. |
-| 4 | Build distribution calculations and simulated transfers | Nov 13, 2026 | TBD | I will check exact totals, rounding and complete saves. |
-| 5 | Build transaction history and run my acceptance tests | Nov 14, 2026 | TBD | I will record actual results and fix failures. |
+| 3 | Build income entry and allocation-rule validation | Nov 12, 2026 | TBD | Income entry and manual validation checks passed Nov 11. Allocation-rule validation was implemented Nov 20, after the milestone target. End-to-end verification is pending. |
+| 4 | Build distribution calculations and simulated transfers | Nov 13, 2026 | TBD | The code was added Nov 20 after the planned date. Verifying exact totals, rounding, and complete saves is pending. |
+| 5 | Build transaction history and run my acceptance tests | Nov 14, 2026 | TBD | History routes were added Nov 20. Running the automated suite remains pending. |
 | 6 | Follow my README from a clean setup and update Canvas progress | Nov 16, 2026 | TBD | I will update my actual dates and references. |
 | 7 | Finish my Stage 1 evaluation and Stage 2 plan | Nov 17, 2026 | TBD | This is my internal completion target. |
 | 8 | Submit Part 2 and update my HW1 Canvas progress page | Nov 21, 2026 | TBD | I will check the due time and submission availability. |

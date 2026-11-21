@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<title>Payday Preferred API checks</title>
+<style>
+  body { font: 1rem system-ui; margin: 2rem auto; padding: 0 1rem; max-width: 48rem; }
+  label { display: block; margin: 1rem 0; }
+  textarea { display: block; width: 100%; font: inherit; }
+  pre { white-space: pre-wrap; background: #eee; padding: 1rem; }
+</style>
+<h1>Payday Preferred API checks</h1>
+<p>Use a disposable database. Successful write requests change the test data.</p>
+<label>Request <select id="request"></select></label>
+<label>Request body <textarea id="body" rows="7"></textarea></label>
+<label>Batch ID <input id="batch" type="number" min="1" value="1"></label>
+<label>History limit <input id="limit" type="number" min="1" max="100" value="100"></label>
+<button id="send">Send request</button>
+<pre id="result" aria-live="polite">Awaiting a request.</pre>
+<script>
+  const requests = [
+    ['POST', '/api/incomes', {amount_cents: 100000, description: 'Test paycheck'}],
+    ['PUT', '/api/allocation-rules', {destinations: [
+      {label: 'checking', percentage: 50},
+      {label: 'savings', percentage: 30},
+      {label: 'investment', percentage: 20}
+    ]}],
+    ['POST', '/api/distributions/preview', {income_id: 1}],
+    ['POST', '/api/transfers/simulate', {income_id: 1}],
+    ['GET', '/api/transactions'],
+    ['GET', '/api/transactions/{batch_id}']
+  ];
+  const select = document.querySelector('#request');
+  const body = document.querySelector('#body');
+  const result = document.querySelector('#result');
+  const send = document.querySelector('#send');
+  for (const [method, path] of requests) {
+    select.add(new Option(method + ' ' + path));
+  }
+  function loadBody() {
+    const data = requests[select.selectedIndex][2];
+    body.disabled = data === undefined;
+    body.value = data === undefined ? '' : JSON.stringify(data, null, 2);
+  }
+  select.addEventListener('change', loadBody);
+  loadBody();
+  send.addEventListener('click', async () => {
+    const [method, route, data] = requests[select.selectedIndex];
+    const batch = document.querySelector('#batch').value;
+    const limit = document.querySelector('#limit').value;
+    let path = route.replace('{batch_id}', encodeURIComponent(batch));
+    if (method === 'GET' && route === '/api/transactions') {
+      path += '?limit=' + encodeURIComponent(limit);
+    }
+    send.disabled = true;
+    result.textContent = 'Sending…';
+    try {
+      const options = {method};
+      if (data !== undefined) {
+        options.headers = {'Content-Type': 'application/json'};
+        options.body = body.value;
+      }
+      const response = await fetch(path, options);
+      const output = await response.text();
+      result.textContent = (response.ok ? 'Success' : 'Error') +
+        ' · HTTP ' + response.status + '\n' + output;
+    } catch (error) {
+      result.textContent = 'Request failed: ' + error.message;
+    } finally {
+      send.disabled = false;
+    }
+  });
+</script>
+</html>

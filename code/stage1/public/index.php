@@ -9,6 +9,8 @@ function respond(int $status, array $data): void
     exit;
 }
 
+require __DIR__ . '/workflows.php';
+
 $path = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 $method = $_SERVER['REQUEST_METHOD'];
 
@@ -42,20 +44,7 @@ if ($method === 'GET' && ($path === '/' || $path === '/health')) {
 
 // Accept a new income entry.
 if ($path === '/api/incomes' && $method === 'POST') {
-    try {
-        $data = json_decode(
-            file_get_contents('php://input'),
-            true,
-            512,
-            JSON_THROW_ON_ERROR
-        );
-    } catch (JsonException $e) {
-        respond(400, ['error' => 'invalid_json']);
-    }
-
-    if (!is_array($data)) {
-        respond(422, ['error' => 'invalid_input']);
-    }
+    $data = requestData();
 
     $amount = $data['amount_cents'] ?? null;
     $description = $data['description'] ?? '';
@@ -87,6 +76,36 @@ if ($path === '/api/incomes' && $method === 'POST') {
     } catch (PDOException $e) {
         respond(500, ['error' => 'income_save_failed']);
     }
+}
+
+try {
+    if ($method === 'PUT' && $path === '/api/allocation-rules') {
+        saveRules($pdo, requestData());
+    }
+
+    if ($method === 'POST' && $path === '/api/distributions/preview') {
+        distribute($pdo, requestData(), false);
+    }
+
+    if ($method === 'POST' && $path === '/api/transfers/simulate') {
+        distribute($pdo, requestData(), true);
+    }
+
+    if ($method === 'GET' && $path === '/api/transactions') {
+        listTransfers($pdo, $_GET);
+    }
+
+    if ($method === 'GET' && preg_match('~^/api/transactions/([0-9]+)$~', $path, $matches)) {
+        $statement = $pdo->prepare('SELECT * FROM transfer_batches WHERE id = ?');
+        $statement->execute([$matches[1]]);
+        $batch = $statement->fetch(PDO::FETCH_ASSOC);
+        if ($batch === false) {
+            respond(404, ['error' => 'batch_not_found']);
+        }
+        respond(200, transferBatch($batch));
+    }
+} catch (PDOException $exception) {
+    respond(500, ['error' => 'database_operation_failed']);
 }
 
 respond(404, ['error' => 'not_found']);
